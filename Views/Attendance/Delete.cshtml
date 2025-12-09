@@ -1,0 +1,36 @@
+﻿@model EmployeeManagement.Models.AttendanceRecord
+
+@{
+    ViewData["Title"] = "Delete Attendance";
+}
+
+<h2>Delete Attendance</h2>
+
+<h5 class="text-danger">Are you sure you want to delete this record?</h5>
+<hr />
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Employee</label>
+    <div>@Model.EmployeeName</div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Date</label>
+    <div>@Model.AttendanceDate.ToString("yyyy-MM-dd")</div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Status</label>
+    <div>@Model.Status</div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Remarks</label>
+    <div>@Model.Remarks</div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="AttendanceId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

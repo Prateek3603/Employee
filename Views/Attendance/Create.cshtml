@@ -1,0 +1,97 @@
+﻿@model EmployeeManagement.Models.AttendanceRecord
+
+@{
+    ViewData["Title"] = "Mark Attendance";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8 col-md-10">
+
+        <div class="card shadow-sm border-0 att-card">
+            <!-- Header -->
+            <div class="card-header py-3"
+                 style="background: linear-gradient(135deg,#3b82f6,#06b6d4); border-radius:10px 10px 0 0;">
+                <h4 class="text-white mb-0">Mark Attendance</h4>
+                <small class="text-white-50">Select employee and update today’s status</small>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body px-4 py-3">
+                <form asp-action="Create" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                    <div class="row g-3">
+                        <!-- Employee -->
+                        <div class="col-md-6">
+                            <label asp-for="EmployeeId" class="form-label small fw-semibold"></label>
+                            <select asp-for="EmployeeId" asp-items="ViewBag.Employees"
+                                    class="form-select compact-input">
+                                <option value="">-- Select Employee --</option>
+                            </select>
+                            <span asp-validation-for="EmployeeId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="col-md-6">
+                            <label asp-for="AttendanceDate" class="form-label small fw-semibold"></label>
+                            <input asp-for="AttendanceDate" type="date"
+                                   class="form-control compact-input" />
+                            <span asp-validation-for="AttendanceDate" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-6">
+                            <label asp-for="Status" class="form-label small fw-semibold"></label>
+                            <select asp-for="Status" class="form-select compact-input">
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                                <option value="Leave">Leave</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Remarks -->
+                        <div class="col-12">
+                            <label asp-for="Remarks" class="form-label small fw-semibold"></label>
+                            <textarea asp-for="Remarks" rows="2"
+                                      class="form-control compact-input"></textarea>
+                            <span asp-validation-for="Remarks" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3 gap-2">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-3">
+                            Back To Attendance
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .att-card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .compact-input {
+        padding: 6px 10px !important; /* height chhota */
+        font-size: 0.9rem !important;
+        border-radius: 6px !important;
+    }
+
+        .compact-input:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 4px rgba(59, 130, 246, 0.5) !important;
+        }
+
+    .form-label {
+        margin-bottom: 2px;
+    }
+</style>

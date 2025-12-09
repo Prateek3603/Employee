@@ -1,0 +1,157 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<style>
+    .emp-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .emp-header {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: #fff;
+    }
+
+    .badge-dept {
+        background: rgba(37, 117, 252, 0.08);
+        color: #2563eb;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    /* NEW: actions ko same line me rakhne ke liye */
+    td.action-cell {
+        white-space: nowrap;
+    }
+
+    .btn-edit {
+        background: #1d4ed8;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-edit:hover {
+            background: #1e40af;
+            color: #fff;
+        }
+
+    .btn-delete {
+        background: #ef4444;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+    .emp-table td,
+    .emp-table th {
+        vertical-align: middle;
+        font-size: 0.93rem;
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-12">
+
+        <div class="card emp-card shadow-lg border-0">
+
+            <!-- Header -->
+            <div class="emp-header p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-0">Employees</h3>
+                    <small class="text-light">
+                        Manage your organization’s team members at one place
+                    </small>
+                </div>
+                <a asp-action="Create" class="btn btn-light fw-semibold shadow-sm">
+                    + Add Employee
+                </a>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body p-4">
+                @if (!Model.Any())
+                {
+                    <div class="text-center text-muted py-4">
+                        <p class="mb-1">No employees added yet.</p>
+                        <a asp-action="Create" class="btn btn-outline-primary btn-sm">
+                            + Add your first employee
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle emp-table mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 20%;">Name</th>
+                                    <th style="width: 24%;">Email</th>
+                                    <th style="width: 16%;">Phone</th>
+                                    <th style="width: 15%;">Department</th>
+                                    <th style="width: 15%;">Joining Date</th>
+                                    <th style="width: 10%;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var e in Model)
+                                {
+                                    <tr>
+                                        <td>@e.Name</td>
+                                        <td class="text-muted">@e.Email</td>
+                                        <td>@e.Phone</td>
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(e.Department))
+                                            {
+                                                <span class="badge-dept">@e.Department</span>
+                                            }
+                                        </td>
+                                        <td>@e.JoiningDate.ToString("yyyy-MM-dd")</td>
+
+                                        <!-- ACTIONS: same line + new colours -->
+                                        <td class="text-center action-cell">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a asp-action="Edit" asp-route-id="@e.EmployeeId"
+                                                   class="btn btn-sm btn-edit">
+                                                    Edit
+                                                </a>
+
+                                                <form asp-action="Delete" asp-route-id="@e.EmployeeId"
+                                                      method="post" class="m-0"
+                                                      onsubmit="return confirm('Delete this employee?');">
+                                                    <button type="submit" class="btn btn-sm btn-delete">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>

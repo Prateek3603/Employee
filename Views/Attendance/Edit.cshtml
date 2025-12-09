@@ -1,0 +1,173 @@
+﻿@model EmployeeManagement.Models.AttendanceRecord
+
+@{
+    ViewData["Title"] = "Edit Attendance";
+}
+
+<!-- Professional gradient header + card. Logic unchanged. -->
+<style>
+    .att-card {
+        max-width: 920px;
+        margin: 36px auto;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 18px 40px rgba(16,24,40,0.08);
+    }
+
+    .att-hero {
+        background: linear-gradient(90deg, #0acffe 0%, #52c76a 100%);
+        color: #fff;
+        padding: 26px 30px;
+    }
+
+        .att-hero h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .att-hero p {
+            margin: 6px 0 0;
+            opacity: 0.95;
+            font-size: 14px;
+        }
+
+    .att-body {
+        background: #fff;
+        padding: 28px 30px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 12px 14px;
+        border: 1px solid #e6eef6;
+        box-shadow: none;
+    }
+
+    .form-control-lg {
+        padding: 14px 16px;
+        font-size: 1rem;
+    }
+
+    .input-group .input-group-text {
+        background: #fff;
+        border-left: 0;
+        border-radius: 0 10px 10px 0;
+    }
+
+    .btn-primary-att {
+        background: #1d4ed8;
+        color: #fff;
+        border: 0;
+        padding: 10px 26px;
+        border-radius: 10px;
+        font-weight: 700;
+        box-shadow: 0 8px 20px rgba(29,78,216,0.12);
+    }
+
+    .btn-cancel-att {
+        background: #f3f4f6;
+        color: #111827;
+        border: 0;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    .field {
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width:720px) {
+        .att-card
+
+    {
+        margin: 16px; 
+    }
+
+    .att-hero {
+        padding: 18px;
+    }
+
+    .att-body {
+        padding: 18px;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+        .actions .btn {
+            width: 100%;
+        }
+
+    }
+</style>
+
+<div class="att-card">
+    <div class="att-hero">
+        <h1>Edit Attendance</h1>
+        <p>Update attendance details and save changes.</p>
+    </div>
+
+    <div class="att-body">
+        <form asp-action="Edit" method="post" novalidate>
+            <input type="hidden" asp-for="AttendanceId" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="field">
+                <label asp-for="EmployeeId" class="form-label"></label>
+                <select asp-for="EmployeeId" asp-items="ViewBag.Employees" class="form-select form-control-lg"></select>
+                <span asp-validation-for="EmployeeId" class="text-danger small d-block mt-1"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="AttendanceDate" class="form-label"></label>
+                <div class="input-group">
+                    <input asp-for="AttendanceDate" type="date" class="form-control form-control-lg" />
+                    <span class="input-group-text" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0f1724" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h.5A1.5 1.5 0 0 1 15 2.5v11A1.5 1.5 0 0 1 13.5 15h-11A1.5 1.5 0 0 1 1 13.5v-11A1.5 1.5 0 0 1 2.5 1H3V.5a.5.5 0 0 1 .5-.5zM2 6h12v7.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V6z" />
+                        </svg>
+                    </span>
+                </div>
+                <span asp-validation-for="AttendanceDate" class="text-danger small d-block mt-1"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select form-control-lg">
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                    <option value="Leave">Leave</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger small d-block mt-1"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="Remarks" class="form-label"></label>
+                <textarea asp-for="Remarks" class="form-control" rows="3" placeholder="Optional notes..."></textarea>
+                <span asp-validation-for="Remarks" class="text-danger small d-block mt-1"></span>
+            </div>
+
+            <div class="d-flex actions justify-content-end gap-3 mt-3">
+                <a asp-action="Index" class="btn-cancel-att">Cancel</a>
+                <button type="submit" class="btn-primary-att">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,164 @@
+﻿@model IEnumerable<EmployeeManagement.Models.AttendanceRecord>
+
+@{
+    ViewData["Title"] = "Attendance Records";
+}
+
+<style>
+    .att-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .att-header {
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        color: #fff;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    .badge-status {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .status-present {
+        background-color: #d1fae5;
+        color: #059669;
+    }
+
+    .status-absent {
+        background-color: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .status-leave {
+        background-color: #fef3c7;
+        color: #b45309;
+    }
+
+    .btn-edit {
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-edit:hover {
+            background: #1d4ed8;
+            color: #fff;
+        }
+
+    .btn-delete {
+        background: #ef4444;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+    td.action-cell {
+        white-space: nowrap;
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-12">
+
+        <div class="card att-card shadow-lg border-0">
+
+            <!-- HEADER -->
+            <div class="att-header p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-0">Attendance Records</h3>
+                    <small class="text-light">View and manage employee attendance</small>
+                </div>
+                <a asp-action="Create" class="btn btn-light fw-semibold shadow-sm">
+                    + Mark Attendance
+                </a>
+            </div>
+
+            <!-- BODY -->
+            <div class="card-body p-4">
+                @if (!Model.Any())
+                {
+                    <div class="text-center text-muted py-4">
+                        <p class="mb-1">No attendance marked yet.</p>
+                        <a asp-action="Create" class="btn btn-outline-primary btn-sm">+ Mark first attendance</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">Employee</th>
+                                    <th style="width: 18%;">Date</th>
+                                    <th style="width: 18%;">Status</th>
+                                    <th>Remarks</th>
+                                    <th style="width: 12%;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in Model)
+                                {
+                                    <tr>
+                                        <td>@a.EmployeeName</td>
+                                        <td>@a.AttendanceDate.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            @if (a.Status == "Present")
+                                            {
+                                                <span class="badge-status status-present">Present</span>
+                                            }
+                                            else if (a.Status == "Absent")
+                                            {
+                                                <span class="badge-status status-absent">Absent</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-status status-leave">Leave</span>
+                                            }
+                                        </td>
+                                        <td>@a.Remarks</td>
+
+                                        <td class="text-center action-cell">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a asp-action="Edit" asp-route-id="@a.AttendanceId"
+                                                   class="btn btn-sm btn-edit">
+                                                    Edit
+                                                </a>
+
+                                                <form asp-action="Delete" asp-route-id="@a.AttendanceId"
+                                                      method="post" class="m-0"
+                                                      onsubmit="return confirm('Delete this attendance record?');">
+                                                    <button type="submit" class="btn btn-sm btn-delete">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,162 @@
+﻿@model IEnumerable<EmployeeManagement.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<style>
+    .task-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .task-header {
+        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    .badge-status {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #d38b18;
+    }
+
+    .status-completed {
+        background-color: #d1fae5;
+        color: #059669;
+    }
+
+    .status-inprogress {
+        background-color: #dbeafe;
+        color: #2563eb;
+    }
+
+    .btn-edit {
+        background: #1d4ed8;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-edit:hover {
+            background: #1e40af;
+        }
+
+    .btn-delete {
+        background: #ef4444;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 12px;
+        border: none;
+    }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+    td.action-cell {
+        white-space: nowrap;
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-12">
+
+        <div class="card task-card shadow-lg border-0">
+
+            <!-- HEADER -->
+            <div class="task-header p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-0">Tasks</h3>
+                    <small class="text-light">Track and manage employee tasks</small>
+                </div>
+
+                <a asp-action="Create" class="btn btn-light fw-semibold shadow-sm">
+                    + Create Task
+                </a>
+            </div>
+
+            <!-- BODY -->
+            <div class="card-body p-4">
+                @if (!Model.Any())
+                {
+                    <div class="text-center text-muted py-4">
+                        <p class="mb-1">No tasks created yet.</p>
+                        <a asp-action="Create" class="btn btn-outline-primary btn-sm">+ Add Task</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">Title</th>
+                                    <th style="width: 20%;">Employee</th>
+                                    <th style="width: 15%;">Due Date</th>
+                                    <th style="width: 20%;">Status</th>
+                                    <th style="width: 10%;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var t in Model)
+                                {
+                                    <tr>
+                                        <td>@t.Title</td>
+                                        <td>@t.EmployeeName</td>
+                                        <td>
+                                            @(t.DueDate?.ToString("yyyy-MM-dd") ?? "")
+                                        </td>
+
+
+                                        <td>
+                                            @if (t.Status == "Pending")
+                                            {
+                                                <span class="badge-status status-pending">Pending</span>
+                                            }
+                                            else if (t.Status == "In Progress")
+                                            {
+                                                <span class="badge-status status-inprogress">In Progress</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-status status-completed">Completed</span>
+                                            }
+                                        </td>
+
+                                        <!-- ACTION BUTTONS -->
+                                        <td class="text-center action-cell">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a asp-action="Edit" asp-route-id="@t.TaskId" class="btn btn-sm btn-edit">Edit</a>
+
+                                                <form asp-action="Delete" asp-route-id="@t.TaskId" method="post"
+                                                      onsubmit="return confirm('Delete this task?');">
+                                                    <button type="submit" class="btn btn-sm btn-delete">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>
