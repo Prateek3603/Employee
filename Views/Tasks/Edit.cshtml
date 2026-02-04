@@ -41,11 +41,17 @@
 
                 <div class="mb-3">
                     <label asp-for="Status" class="form-label fw-semibold"></label>
-                    <select asp-for="Status" class="form-select">
+                   @*  <select asp-for="Status" class="form-select">
                         <option value="Pending">Pending</option>
                         <option value="InProgress">In Progress</option>
                         <option value="Completed">Completed</option>
+                    </select> *@
+                    <select asp-for="Status" class="form-select">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
                     </select>
+
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
 
